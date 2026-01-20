@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Project Root 🧊 Fridge Inventory</title>
+  <title>Project Root 🧊</title>
 
   <link rel="stylesheet" href="styles.css" />
   <link rel="manifest" href="manifest.json" />
@@ -12,156 +12,150 @@
 
 <body>
 
-  <!-- ================== ONBOARDING SCREEN ================== -->
+  <!-- ================== ONBOARDING ================== -->
   <div id="onboarding" class="screen">
     <div class="card">
       <h1>Fridji</h1>
       <p>Create or join a fridge to start.</p>
 
-      <button id="btnCreateFridge" class="primary">
-        Create a fridge
-      </button>
+      <button id="btnCreateFridge" class="primary">Create a fridge</button>
 
       <div style="height:14px;"></div>
 
       <input
         id="joinCodeInput"
         class="input"
-        placeholder="Enter fridge code (e.g. 8F3K2Q)"
+        placeholder="Enter fridge code"
         maxlength="12"
       />
 
-      <button id="btnJoinFridge" class="secondary">
-        Join fridge
-      </button>
+      <button id="btnJoinFridge" class="secondary">Join fridge</button>
     </div>
   </div>
 
-  <!-- ================== CREATE SETUP SCREEN (NAME IT FIRST) ================== -->
+  <!-- ================== CREATE SETUP ================== -->
   <div id="createSetup" class="screen hidden">
     <div class="card">
       <h1>Name your fridge</h1>
-      <p>This helps everyone know they’re joining the right family fridge.</p>
 
       <input
         id="createFridgeNameInput"
         class="input"
-        placeholder="e.g. Mark’s Fridge"
+        placeholder="e.g. Dylan’s Fridge"
         maxlength="32"
       />
 
       <div style="height:14px;"></div>
 
-      <button id="btnCreateConfirm" class="primary">
-        Create fridge + generate code
-      </button>
-
-      <button id="btnCreateCancel" class="secondary">
-        Back
-      </button>
+      <button id="btnCreateConfirm" class="primary">Create fridge</button>
+      <button id="btnCreateCancel" class="secondary">Back</button>
     </div>
   </div>
 
-  <!-- ================== CREATED SCREEN (SHOW THE CODE) ================== -->
+  <!-- ================== CREATED ================== -->
   <div id="createdScreen" class="screen hidden">
     <div class="card">
       <h1>Fridge created ✅</h1>
 
       <p>
-        You made: <strong><span id="createdFridgeName">My Fridge</span></strong>
-      </p>
-
-      <p style="margin-top:10px;">
-        Share this code with your family:
+        You made:
+        <strong><span id="createdFridgeName"></span></strong>
       </p>
 
       <div class="code-box">
-        <span id="createdFridgeCode">------</span>
+        <span id="createdFridgeCode"></span>
       </div>
 
-      <button id="btnCreatedContinue" class="primary">
-        Continue into fridge
-      </button>
+      <button id="btnCreatedContinue" class="primary">Continue</button>
     </div>
   </div>
 
-  <!-- ================== JOIN CONFIRM SCREEN ================== -->
+  <!-- ================== JOIN CONFIRM ================== -->
   <div id="joinConfirm" class="screen hidden">
     <div class="card">
-      <h1>Confirm join</h1>
+      <h1>Join fridge?</h1>
 
-      <p>
-        You’re about to join:
-        <strong><span id="joinFridgeName">Someone’s Fridge</span></strong>
-      </p>
+      <p><strong><span id="joinFridgeName"></span></strong></p>
+      <p class="subtitle">Code: <span id="joinFridgeCode"></span></p>
 
-      <p style="opacity:.8; margin-top:6px;">
-        Code: <span id="joinFridgeCode">------</span>
-      </p>
-
-      <div style="height:14px;"></div>
-
-      <button id="btnJoinYes" class="primary">
-        Yes, join this fridge
-      </button>
-
-      <button id="btnJoinNo" class="secondary">
-        Cancel
-      </button>
+      <button id="btnJoinYes" class="primary">Join</button>
+      <button id="btnJoinNo" class="secondary">Cancel</button>
     </div>
   </div>
 
-  <!-- ================== FRIDGE INFO SCREEN ================== -->
-<div id="fridgeInfo" class="screen hidden">
-  <div class="card">
-    <h1>Fridge Info</h1>
+  <!-- ================== FRIDGE INFO ================== -->
+  <div id="fridgeInfo" class="screen hidden">
+    <div class="card">
+      <h1>Fridge Info</h1>
 
-    <p>
-      You’re in: <strong><span id="infoFridgeName">---</span></strong>
-    </p>
+      <p><strong><span id="infoFridgeName"></span></strong></p>
 
-    <p style="margin-top:10px;">Share this code:</p>
-    <div class="code-box">
-      <span id="infoFridgeCode">------</span>
+      <div class="code-box">
+        <span id="infoFridgeCode"></span>
+      </div>
+
+      <button id="btnCopyFridgeCode" class="primary">Copy Code</button>
+      <button id="btnBackToApp" class="secondary">Back</button>
     </div>
-
-    <button id="btnCopyFridgeCode" class="primary">Copy Code</button>
-    <button id="btnBackToApp" class="secondary">Back</button>
   </div>
-</div>
 
   <!-- ================== MAIN APP ================== -->
-  <div id="appRoot" class="screen hidden">
+  <div id="appRoot" class="screen hidden" style="align-items:flex-start;">
     <div class="container">
 
-      <h1>🧊 Project Root</h1>
-      <p class="subtitle">Fridge Inventory Tracker</p>
+      <!-- Top Bar -->
+      <div class="topbar">
+        <div>
+          <h1 style="margin:0;">Inventory</h1>
+          <p id="currentFridgeLabel" class="subtitle"></p>
+        </div>
 
-      <!-- Shows user which family fridge they’re in -->
-      <p id="currentFridgeLabel" class="subtitle" style="opacity:.9;"></p>
-      <button id="btnFridgeInfo" class="secondary">Fridge Code / Info</button>
-      <button id="btnSwitchFridge" class="secondary">Switch Fridge</button>
+        <div class="topbar-actions">
+          <button id="btnFridgeInfo" class="secondary">Info</button>
+          <button id="btnSwitchFridge" class="secondary">Switch</button>
+        </div>
+      </div>
 
-      <div style="height:10px;"></div>
-
-
-      <!-- OPTIONAL (saved add-on): switch fridge -->
-      <!-- <button id="btnSwitchFridge" class="secondary">Switch Fridge</button> -->
-
+      <!-- Add Item -->
       <div class="form">
         <input id="itemName" placeholder="Item name" />
         <input id="itemQty" type="number" placeholder="Qty" min="1" />
         <input id="itemExp" type="date" />
-        <button id="addBtn">Add Item</button>
+        <button id="addBtn">Add</button>
       </div>
 
+      <!-- Inventory List -->
       <ul id="list"></ul>
-
     </div>
   </div>
 
-  <!-- ================== SCRIPT (ALWAYS LAST) ================== -->
+  <!-- ================== BOTTOM NAV ================== -->
+  <nav class="bottom-nav">
+    <button class="nav-btn nav-active">Inventory</button>
+    <button class="nav-btn nav-plus" id="navAdd">+</button>
+    <button class="nav-btn" id="navRoot">Root</button>
+    <button class="nav-btn" id="navMore">More</button>
+  </nav>
+
+  <!-- ================== SCRIPTS ================== -->
   <script src="app.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("navAdd")?.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        document.getElementById("itemName")?.focus();
+      });
+
+      document.getElementById("navRoot")?.addEventListener("click", () => {
+        alert("Root AI coming soon");
+      });
+
+      document.getElementById("navMore")?.addEventListener("click", () => {
+        alert("More coming soon");
+      });
+    });
+  </script>
 
 </body>
 </html>
