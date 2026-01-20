@@ -4,15 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Project Root 🧊</title>
+  <title>Fridji • Project Root</title>
 
   <link rel="stylesheet" href="styles.css" />
   <link rel="manifest" href="manifest.json" />
 </head>
 
 <body>
-
-  <!-- ================== ONBOARDING ================== -->
+  <!-- ================== ONBOARDING SCREEN ================== -->
   <div id="onboarding" class="screen">
     <div class="card">
       <h1>Fridji</h1>
@@ -25,7 +24,7 @@
       <input
         id="joinCodeInput"
         class="input"
-        placeholder="Enter fridge code"
+        placeholder="Enter fridge code (e.g. 8F3K2Q)"
         maxlength="12"
       />
 
@@ -33,66 +32,72 @@
     </div>
   </div>
 
-  <!-- ================== CREATE SETUP ================== -->
+  <!-- ================== CREATE SETUP SCREEN ================== -->
   <div id="createSetup" class="screen hidden">
     <div class="card">
       <h1>Name your fridge</h1>
+      <p>This helps everyone know they’re joining the right family fridge.</p>
 
       <input
         id="createFridgeNameInput"
         class="input"
-        placeholder="e.g. Dylan’s Fridge"
+        placeholder="e.g. Mark’s Fridge"
         maxlength="32"
       />
 
       <div style="height:14px;"></div>
 
-      <button id="btnCreateConfirm" class="primary">Create fridge</button>
+      <button id="btnCreateConfirm" class="primary">Create fridge + generate code</button>
       <button id="btnCreateCancel" class="secondary">Back</button>
     </div>
   </div>
 
-  <!-- ================== CREATED ================== -->
+  <!-- ================== CREATED SCREEN ================== -->
   <div id="createdScreen" class="screen hidden">
     <div class="card">
       <h1>Fridge created ✅</h1>
 
-      <p>
-        You made:
-        <strong><span id="createdFridgeName"></span></strong>
-      </p>
+      <p>You made: <strong><span id="createdFridgeName">My Fridge</span></strong></p>
+      <p style="margin-top:10px;">Share this code with your family:</p>
 
       <div class="code-box">
-        <span id="createdFridgeCode"></span>
+        <span id="createdFridgeCode">------</span>
       </div>
 
       <button id="btnCreatedContinue" class="primary">Continue</button>
     </div>
   </div>
 
-  <!-- ================== JOIN CONFIRM ================== -->
+  <!-- ================== JOIN CONFIRM SCREEN ================== -->
   <div id="joinConfirm" class="screen hidden">
     <div class="card">
-      <h1>Join fridge?</h1>
+      <h1>Confirm join</h1>
 
-      <p><strong><span id="joinFridgeName"></span></strong></p>
-      <p class="subtitle">Code: <span id="joinFridgeCode"></span></p>
+      <p>
+        You’re about to join:
+        <strong><span id="joinFridgeName">Someone’s Fridge</span></strong>
+      </p>
 
-      <button id="btnJoinYes" class="primary">Join</button>
+      <p style="opacity:.8; margin-top:6px;">
+        Code: <span id="joinFridgeCode">------</span>
+      </p>
+
+      <div style="height:14px;"></div>
+
+      <button id="btnJoinYes" class="primary">Yes, join this fridge</button>
       <button id="btnJoinNo" class="secondary">Cancel</button>
     </div>
   </div>
 
-  <!-- ================== FRIDGE INFO ================== -->
+  <!-- ================== FRIDGE INFO SCREEN ================== -->
   <div id="fridgeInfo" class="screen hidden">
     <div class="card">
       <h1>Fridge Info</h1>
 
-      <p><strong><span id="infoFridgeName"></span></strong></p>
+      <p>You’re in: <strong><span id="infoFridgeName">---</span></strong></p>
 
-      <div class="code-box">
-        <span id="infoFridgeCode"></span>
-      </div>
+      <p style="margin-top:10px;">Share this code:</p>
+      <div class="code-box"><span id="infoFridgeCode">------</span></div>
 
       <button id="btnCopyFridgeCode" class="primary">Copy Code</button>
       <button id="btnBackToApp" class="secondary">Back</button>
@@ -100,62 +105,133 @@
   </div>
 
   <!-- ================== MAIN APP ================== -->
-  <div id="appRoot" class="screen hidden" style="align-items:flex-start;">
-    <div class="container">
+  <div id="appRoot" class="screen hidden">
+    <div class="app-shell">
 
-      <!-- Top Bar -->
-      <div class="topbar">
-        <div>
-          <h1 style="margin:0;">Inventory</h1>
-          <p id="currentFridgeLabel" class="subtitle"></p>
+      <!-- ===== DASHBOARD VIEW ===== -->
+      <section id="viewDashboard" class="view">
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <h1 class="title">Dashboard</h1>
+              <p id="currentFridgeLabel" class="subtitle"></p>
+            </div>
+
+            <div class="stack">
+              <button id="btnFridgeInfo" class="secondary">Fridge Info</button>
+              <button id="btnSwitchFridge" class="secondary">Switch</button>
+            </div>
+          </div>
+
+          <!-- Needs attention -->
+          <div class="card-block">
+            <div class="card-row">
+              <h2 class="card-title">Needs attention</h2>
+              <button id="btnSeeMore" class="link-btn">See more</button>
+            </div>
+
+            <!-- app.js will inject pills here -->
+            <div id="needsAttentionList"></div>
+          </div>
+
+          <div class="card-block">
+            <h2 class="card-title">Grocery list</h2>
+            <div class="pill muted">
+              <span>Coming soon…</span>
+            </div>
+          </div>
         </div>
+      </section>
 
-        <div class="topbar-actions">
-          <button id="btnFridgeInfo" class="secondary">Info</button>
-          <button id="btnSwitchFridge" class="secondary">Switch</button>
+      <!-- ===== INVENTORY VIEW ===== -->
+      <section id="viewInventory" class="view hidden">
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <h1 class="title">Inventory</h1>
+              <p class="subtitle">Add items + expiration tracking</p>
+            </div>
+          </div>
+
+          <div class="quick-actions">
+            <button id="btnInvInfo" class="secondary">Info</button>
+            <button id="btnInvSwitch" class="secondary">Switch</button>
+          </div>
+
+          <div class="form">
+            <input id="itemName" placeholder="Item name" />
+            <input id="itemQty" type="number" placeholder="Qty" min="1" />
+            <input id="itemExp" type="date" />
+            <button id="addBtn">Add</button>
+          </div>
+
+          <ul id="list"></ul>
         </div>
-      </div>
+      </section>
 
-      <!-- Add Item -->
-      <div class="form">
-        <input id="itemName" placeholder="Item name" />
-        <input id="itemQty" type="number" placeholder="Qty" min="1" />
-        <input id="itemExp" type="date" />
-        <button id="addBtn">Add</button>
-      </div>
+      <!-- ===== BOTTOM NAV ===== -->
+      <nav class="bottom-nav">
+        <button class="nav-btn active" id="navDashboard">Dashboard</button>
+        <button class="nav-btn" id="navInventory">Inventory</button>
+        <button class="nav-btn nav-plus" id="navAdd">+</button>
+        <button class="nav-btn" id="navRoot">Root</button>
+        <button class="nav-btn" id="navMore">More</button>
+      </nav>
 
-      <!-- Inventory List -->
-      <ul id="list"></ul>
     </div>
   </div>
 
-  <!-- ================== BOTTOM NAV ================== -->
-  <nav class="bottom-nav">
-    <button class="nav-btn nav-active">Inventory</button>
-    <button class="nav-btn nav-plus" id="navAdd">+</button>
-    <button class="nav-btn" id="navRoot">Root</button>
-    <button class="nav-btn" id="navMore">More</button>
-  </nav>
-
-  <!-- ================== SCRIPTS ================== -->
+  <!-- ================== SCRIPT (ALWAYS LAST) ================== -->
   <script src="app.js"></script>
 
+  <!-- Nav + view switching -->
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      document.getElementById("navAdd")?.addEventListener("click", () => {
+    (function () {
+      const dash = document.getElementById("viewDashboard");
+      const inv = document.getElementById("viewInventory");
+
+      const navDash = document.getElementById("navDashboard");
+      const navInv = document.getElementById("navInventory");
+      const navAdd = document.getElementById("navAdd");
+
+      const btnSeeMore = document.getElementById("btnSeeMore");
+      const btnInvInfo = document.getElementById("btnInvInfo");
+      const btnInvSwitch = document.getElementById("btnInvSwitch");
+
+      // Mirror dashboard buttons to inventory buttons so app.js IDs still work
+      btnInvInfo?.addEventListener("click", () => document.getElementById("btnFridgeInfo")?.click());
+      btnInvSwitch?.addEventListener("click", () => document.getElementById("btnSwitchFridge")?.click());
+
+      function setActive(btn) {
+        document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+        btn?.classList.add("active");
+      }
+
+      function showDashboard() {
+        inv.classList.add("hidden");
+        dash.classList.remove("hidden");
+        setActive(navDash);
+      }
+
+      function showInventory() {
+        dash.classList.add("hidden");
+        inv.classList.remove("hidden");
+        setActive(navInv);
+      }
+
+      navDash?.addEventListener("click", showDashboard);
+      navInv?.addEventListener("click", showInventory);
+      btnSeeMore?.addEventListener("click", showInventory);
+
+      navAdd?.addEventListener("click", () => {
+        showInventory();
         window.scrollTo({ top: 0, behavior: "smooth" });
-        document.getElementById("itemName")?.focus();
+        setTimeout(() => document.getElementById("itemName")?.focus(), 150);
       });
 
-      document.getElementById("navRoot")?.addEventListener("click", () => {
-        alert("Root AI coming soon");
-      });
-
-      document.getElementById("navMore")?.addEventListener("click", () => {
-        alert("More coming soon");
-      });
-    });
+      document.getElementById("navRoot")?.addEventListener("click", () => alert("Root AI coming soon"));
+      document.getElementById("navMore")?.addEventListener("click", () => alert("More coming soon"));
+    })();
   </script>
-
 </body>
 </html>
