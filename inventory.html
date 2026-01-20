@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Project Root 🧊 Inventory</title>
+
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="manifest" href="manifest.json" />
+</head>
+
+<body>
+
+  <!-- Inventory Screen (separate page) -->
+  <div class="screen" style="align-items:flex-start;">
+    <div class="container">
+
+      <div class="topbar">
+        <div>
+          <h1 style="margin:0;">Inventory</h1>
+          <p id="currentFridgeLabel" class="subtitle" style="opacity:.9;"></p>
+        </div>
+
+        <div class="topbar-actions">
+          <button id="btnBackDashboard" class="secondary">Dashboard</button>
+        </div>
+      </div>
+
+      <!-- Add Item Form -->
+      <div class="form">
+        <input id="itemName" placeholder="Item name" />
+        <input id="itemQty" type="number" placeholder="Qty" min="1" />
+        <input id="itemExp" type="date" />
+        <button id="addBtn">Add</button>
+      </div>
+
+      <!-- Inventory List -->
+      <ul id="list"></ul>
+
+    </div>
+  </div>
+
+  <!-- Bottom nav -->
+  <nav class="bottom-nav">
+    <button class="nav-btn" id="navDashboard">Dashboard</button>
+    <button class="nav-btn" id="navInventory">Inventory</button>
+    <button class="nav-btn nav-plus" id="navAdd">+</button>
+    <button class="nav-btn" id="navRoot">Root</button>
+    <button class="nav-btn" id="navMore">More</button>
+  </nav>
+
+  <script src="app.js"></script>
+
+  <script>
+    // If no fridge selected, redirect to dashboard/onboarding
+    (function ensureFridge() {
+      const fridgeId = localStorage.getItem("fridji_fridge_id");
+      if (!fridgeId) window.location.href = "index.html";
+    })();
+
+    function goDashboard() {
+      window.location.href = "index.html";
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("btnBackDashboard")?.addEventListener("click", goDashboard);
+      document.getElementById("navDashboard")?.addEventListener("click", goDashboard);
+
+      // already on inventory
+      document.getElementById("navInventory")?.addEventListener("click", () => {});
+
+      // plus button = scroll to add form
+      document.getElementById("navAdd")?.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        document.getElementById("itemName")?.focus();
+      });
+
+      document.getElementById("navRoot")?.addEventListener("click", () => alert("Root AI coming soon"));
+      document.getElementById("navMore")?.addEventListener("click", () => alert("More coming soon"));
+    });
+  </script>
+
+</body>
+</html>
